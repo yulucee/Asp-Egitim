@@ -1,0 +1,47 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList <mvc2.Models.Makale>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background: linear-gradient(to right bottom, rgba(158, 158, 158,0.8), rgba(120, 144, 156,0.8)), url("../../Content/ss2.jpg");
+        /*background: radial-gradient(transparent 65%, #05426f 100%), linear-gradient( 115deg, #91a5a6, #8a9b8b, #8dabab, #889a80, #6d969c, #477e92, #518998 );*/
+    }
+</style>
+@foreach (var item in Model)
+{
+    <h2>
+        <a href="/Home/MakaleDetay/@item.MakaleId">@item.Baslik</a>
+    </h2>
+    <p class="lead">
+        Öğretmen <a href="/Uye/UyeProfil/@item.Uye.UyeId">@item.Uye.KullaniciAdi</a>
+    </p>
+    <p><span class="glyphicon glyphicon-time"></span> @String.Format("{0: MMMM yyyy}", item.Tarih)  <span class="glyphicon glyphicon-tags"></span> @item.Etikets.Count()</p>
+    <hr>
+    <img class="img-responsive" src="@item.Foto" >
+    <hr>
+
+    if (item.Icerik.Length > 150)
+    {
+        <p>@Html.Raw(item.Icerik.Substring(0, 150)) ...</p>
+    }
+    else
+    {
+        <p>@Html.Raw(item.Icerik)... </p>
+    }
+
+    <a class="btn btn-primary" href="/Home/MakaleDetay/@item.MakaleId">Devamını Oku <span class="glyphicon glyphicon-chevron-right"></span></a>
+    <hr>
+}
+<div class="row">
+    <div class="col-md-8 text-center">
+        <div class="pagedList pagination-lg">
+            @Html.PagedListPager(Model,Page=>Url.Action("Index",new { Page}), PagedListRenderOptions.Classic)
+        </div>
+    </div>
+
+</div>
+

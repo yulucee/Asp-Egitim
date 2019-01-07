@@ -1,0 +1,51 @@
+﻿@model mvc2.Models.Uye
+
+@{
+    ViewBag.Title = "UyeProfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-image: linear-gradient(to right bottom, rgba(158, 158, 158,0.8), rgba(120, 144, 156,0.8)), url("../../Content/ss2.jpg");
+    }
+</style>
+<h2>Öğretmenimiz</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdSoyad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdSoyad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+
+        <dd>
+            <img src="@Model.Foto" class="img-circle" alt="@Model.AdSoyad" width="65" />
+
+        </dd>
+
+    </dl>
+    <h4>Son Eklediği Ders Konuları</h4>
+    <div class="col-md-8 ">
+        @foreach (var item in Model.Makales.OrderByDescending(m => m.MakaleId).Take(5))
+        {
+            <li><a href="/Home/MakaleDetay/@item.MakaleId">@item.Baslik</a></li>
+        }
+
+    </div>
+
+</div>

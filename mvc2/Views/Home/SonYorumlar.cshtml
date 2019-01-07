@@ -1,0 +1,78 @@
+﻿@model IEnumerable<mvc2.Models.Yorum>
+@{ 
+    Layout = null;
+}
+<h4>Son Yorumlar</h4>
+<style>
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    label {
+        background: #34495E;
+        width: 100%;
+        display: block;
+        border-bottom: 1px solid #2C3E50;
+        color: #337ab7;
+        text-transform: capitalize;
+        font-weight: 300;
+        font-size: 12px;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.7s ease;
+        position: relative;
+        margin-bottom: 5px;
+        padding: 5px 5px 5px 20px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
+
+
+        label h2 span {
+            display: block;
+            margin-top:5px;
+            font-size: 12px;
+            text-transform: capitalize;
+            font-weight: normal;
+            color: #bdc3c7;
+        }
+
+        label:before {
+            width: 8px;
+            height: 8px;
+            border: 1px solid #416282;
+            display: block;
+            position: absolute;
+            border-radius: 100%;
+            left: 20px;
+            top: 30%;
+            transition: border 0.7s ease;
+            z-index: 9999;
+        }
+
+     
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <label>
+                        <h2 style="font-size:20px;">
+                            @item.Icerik
+                            <span>
+                                @item.Tarih
+                            </span>
+                        </h2>
+                    </label>
+                    
+                </li>
+                
+            }
+        </ul>
+    </div>
+
+</div>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<mvc2.Models.Makale>
+
+@{
+    ViewBag.Title = "BlogAra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-image: linear-gradient(to right bottom, rgba(158, 158, 158,0.8), rgba(120, 144, 156,0.8)), url("../../Content/ss2.jpg");
+    }
+</style>
+<h2>Bunları bulduk</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Kategori.KategoriAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Uye.KullaniciAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Baslik)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Foto)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Tarih)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Okunma)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategori.KategoriAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uye.KullaniciAdi)
+            </td>
+            <td>
+                <a href="/Home/MakaleDetay/@item.MakaleId">@Html.DisplayFor(modelItem => item.Baslik) </a>
+            </td>
+            @*<td>
+                <img src="@item.Foto" class="img-responsive img-rounded" width="75" />
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Okunma)
+            </td>
+
+        </tr>
+    }
+
+</table>

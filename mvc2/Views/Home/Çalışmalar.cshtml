@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "Çalışmalar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .quiz-wrapper {
+        position: relative;
+        display: block;
+        width: 710px;
+        height: 450px;
+    }
+
+        .quiz-wrapper p.question-description {
+            background: #19286C;
+            color: white;
+            padding: 25px 20px;
+        }
+
+        .quiz-wrapper ul.options {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            width: 165px;
+            list-style: none;
+            border: 1px solid #19286C;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+            .quiz-wrapper ul.options li {
+                border: 1px solid transparent;
+                padding: 6px 8px;
+            }
+
+                .quiz-wrapper ul.options li.title {
+                    background: #19286C;
+                    color: white;
+                }
+
+                .quiz-wrapper ul.options li.option {
+                    display: block;
+                    position: relative;
+                    z-index: 50;
+                    font-size: 13px;
+                }
+
+        .quiz-wrapper .answers {
+            display: inline-block;
+            width: 535px;
+            font-size: 13px;
+            line-height: 20px;
+        }
+
+            .quiz-wrapper .answers .target {
+                display: inline-block;
+                width: 110px;
+                background: lightblue;
+                margin: 0 3px;
+                text-align: center;
+            }
+
+        .quiz-wrapper button[type="submit"] {
+            display: block;
+            position: relative;
+            margin: 10px auto;
+            padding: 10px;
+            background: #19286C;
+            border: none;
+            border-radius:12px;
+            color: white;
+            font-size: 16px;
+        }
+        .quiz-wrapper button[type="submit"]:hover {
+            background-color:#008CBA;
+            color:white;
+        }
+
+        .lightbox-bg {
+        display: none;
+        position: absolute;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .status {
+        display: none;
+        position: absolute;
+        z-index: 110;
+        text-align: center;
+        width: 80%;
+        top: 220px;
+        left: 47px;
+    }
+
+        .status p {
+            background: white;
+            padding: 30px;
+        }
+</style>
+
+@section scripts{
+   
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //initialize the quiz options
+            var answersLeft = [];
+            $('.quiz-wrapper').find('li.option').each(function (i) {
+                var $this = $(this);
+                var answerValue = $this.data('target');
+                var $target = $('.answers .target[data-accept="' + answerValue + '"]');
+                var labelText = $this.html();
+                $this.draggable({
+                    revert: "invalid",
+                    containment: ".quiz-wrapper"
+                });
+
+                if ($target.length > 0) {
+                    $target.droppable({
+                        accept: 'li.option[data-target="' + answerValue + '"]',
+                        drop: function (event, ui) {
+                            $this.draggable('destroy');
+                            $target.droppable('destroy');
+                            $this.html('&nbsp;');
+                            $target.html(labelText);
+                            answersLeft.splice(answersLeft.indexOf(answerValue), 1);
+                        }
+                    });
+                    answersLeft.push(answerValue);
+                } else { }
+            });
+            $('.quiz-wrapper button[type="submit"]').click(function () {
+                if (answersLeft.length > 0) {
+                    $('.lightbox-bg').show();
+                    $('.status.deny').show();
+                    $('.lightbox-bg').click(function () {
+                        $('.lightbox-bg').hide();
+                        $('.status.deny').hide();
+                        $('.lightbox-bg').unbind('click');
+                    });
+                } else {
+                    $('.lightbox-bg').show();
+                    $('.status.confirm').show();
+                }
+            });
+        });
+
+    </script>
+
+}
+    <div class="quiz-wrapper">
+        <p class="question-description">Doğru kelimeleri yerleştirerek boşlukları doldurunuz</p>
+        <ul class="options">
+            <li class="title">Kelimeler</li>
+            <li class="option" data-target="supervised">Supervised Öğrenme</li>
+            <li class="option" data-target="regresyon">Regresyon</li>
+            <li class="option" data-target="siniflandirma">Sınıflandırma</li>
+            <li class="option" data-target="unsupervised">Unsupervised Öğrenme</li>
+            <li class="option" data-target="least">Least Mean Squares</li>
+            <li class="option" data-target="backward">Backward Elimination</li>
+        </ul>
+        <div class="answers">
+            <ol>
+                <li><span class="target" data-accept="backward">&nbsp;</span> bir feature selection yöntemidir.</li>
+                <li>Eldeki verilerle eğitilen algoritmanın daha önce eğitimi sırasında hiç görmediği verilerle performansının ölçülmesi sürecine <span class="target" data-accept="supervised">&nbsp;</span> denir </li>
+                <li>Sayısal tahmin yapmak için kullanılan algoritmalara <span class="target" data-accept="regresyon">&nbsp;</span> algoritmaları denir.</li>
+                <li>Hataları küçültmeye yarayan algoritmalara <span class="target" data-accept="least">&nbsp;</span>algoritmaları olarak adlandırılır.</li>
+                <li>
+                    Veri içinde birbirine benzer kümeler bulma işleminin yapıldığı öğrenmeye <span class="target" data-accept="unsupervised">&nbsp;</span> denir.Benzerlik ise verinin türüne bağlı olmakla birlikte renkler gibi düşünürsek
+                    verinin birbirine yakın renkler şeklinde kümelenmesi yöntemidir.
+                </li>
+            </ol>
+        </div>
+
+        <button type="submit" value="submit">Cevapları Yolla</button>
+        <div class="lightbox-bg"></div>
+        <div class="status confirm">
+            <p>Tüm Sorular Cevaplandı</p>
+        </div>
+        <div class="status deny">
+            <p>Cevaplanmamış Sorular Var!</p>
+        </div>
+    </div>

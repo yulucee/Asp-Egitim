@@ -1,0 +1,26 @@
+﻿
+<h4 style="color:#337ab7;">Arama Yap</h4>
+@using (Html.BeginForm("BlogAra", "Home", FormMethod.Post,new { enctype="multipart/form-data"}))
+{
+    <style>
+       .stylecss{
+           background-color:aquamarine;
+           box-shadow:initial;
+       }
+        .well {
+            background: linear-gradient(to right bottom, rgba(178, 223, 219,0.9),rgba(178, 223, 219,0.2));
+        }
+    </style>
+    <div class="stylecss">    
+        <div class="input-group">
+        <input id="Ara" name="Ara" type="text" class="form-control">
+        <span class="input-group-btn">
+            <button class="btn btn-default" value="Ara" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+    </div>
+
+
+}
